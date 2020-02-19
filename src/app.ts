@@ -1,255 +1,34 @@
-// showHello('greeting', 'TypeScript');
+import { ReferenceItem } from './classes';
+import { PersonBook } from './types';
+import { Category } from './enums';
+import { getAllBooks } from './functions';
+import { Logger } from './interfaces';
 
-// function showHello(divName: string, name: string) {
-//   const elt = document.getElementById(divName);
-//   elt.innerText = `Hello from ${name}`;
-// }
+showHello('greeting', 'TypeScript');
+
+function showHello(divName: string, name: string) {
+  const elt = document.getElementById(divName);
+  elt.innerText = `Hello from ${name}`;
+}
 
 // types & interfaces
 
-enum Category { JavaScript, CSS, HTML, TypeScript, Angular };
-
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  available: boolean;
-  category?: Category;
-  pages?: number;
-  markDamaged?: DamageLogger;
-}
-
-interface DamageLogger {
-  (reason: string): void;
-}
-
-interface Person {
-  name: string;
-  email: string;
-}
-
-interface Author extends Person {
-  numBooksPublished: number;
-}
-
-interface Librarian extends Person {
-  department: string;
-  assistCustomer: (customerName: string) => void;
-}
-
-type BookProperties = keyof Book;
-
-type PersonBook = Person & Book;
-
-type BookOrUndefined = Book | undefined;
-
-
 // Functions
-
-function getAllBooks(): readonly Book[] {
-  const books: readonly Book[] = <const>[
-    { id: 1, title: 'Refactoring JavaScript', category: Category.JavaScript, author: 'Evan Burchard', available: true},
-    { id: 2, title: 'JavaScript Testing', category: Category.JavaScript, author: 'Liang Yuxian Eugene', available: false },
-    { id: 3, title: 'CSS Secrets', category: Category.CSS, author: 'Lea Verou', available: true },
-    { id: 4, title: 'Mastering JavaScript Object-Oriented Programming', category: Category.JavaScript, author: 'Andrea Chiarelli', available: true }
-  ];
-
-  return books;
-}
-
-function logFirstAvailable(books: readonly object[] = getAllBooks()): void {
-  const numOfBooks: number = books.length;
-  let title: string = '';
-
-  for (const book of books) {
-    if (book['available']) {
-      title = book['title'];
-      break;
-    }
-  }
-
-  console.log(`Total number of books: ${numOfBooks}`);
-  console.log(`First available book: ${title}`);
-}
-
-function getBookTitlesByCategory(category: Category = Category.JavaScript): Array<string> {
-  const books = getAllBooks();
-  const titles: string[] = [];
-
-  for (const book of books) {
-    if ((book as any).category === category) {
-      titles.push(book['title']);
-    }
-  }
-
-  return titles;
-}
-
-function logBookTitles(titles: string[]): void {
-  titles.forEach((title: string) => console.log(title));
-}
-
-function getBookAuthorByIndex(index: number): [string, string] {
-  const books = getAllBooks();
-  const { title, author } = books[index] as any;
-
-  return [title, author];
-}
-
-// function calcTotalPages(): bigint {
-//   const data = <const>[
-//     { lib: 'libName1', books: 1_000_000_000, avgPagesPerBook: 250 },
-//     { lib: 'libName2', books: 5_000_000_000, avgPagesPerBook: 300 },
-//     { lib: 'libName3', books: 3_000_000_000, avgPagesPerBook: 280 }
-//   ];
-
-//   const result = data.reduce((acc: bigint, obj: any) => {
-//     return acc + BigInt(obj.books) * BigInt(obj.avgPagesPerBook);
-//   }, 0n)
-
-//   return result;
-// }
-
-function getBookById(id: number): BookOrUndefined {
-  const books = getAllBooks();
-  return books.find(book => book['id'] === id);
-}
-
-function createCustomerId(name: string, id: number): string {
-  return `${name}${id}`;
-}
-
-function createCustomer(name: string, age?: number, city?: string): void {
-  console.log(`Creating customer ${name}`);
-
-  if (age) {
-    console.log(`Age: ${age}`);
-  }
-
-  if (city) {
-    console.log(`City: ${city}`);
-  }
-}
-
-function checkoutBooks(customer: string, ...bookIDs: number[]): string[] {
-  console.log(`Checking out books for ${customer}`);
-
-  const titles: string[] = [];
-
-  for (const id of bookIDs) {
-    const book: any = getBookById(id);
-
-    if (book && book.available) {
-      titles.push(book.title);
-    }
-  }
-
-  return titles;
-}
-
-function getTitles(author: string): string[];
-function getTitles(available: boolean): string[];
-function getTitles(id: number, available: boolean): string[];
-function getTitles(...args: any[]): string[] {
-  const books: ReadonlyArray<any> = getAllBooks();
-
-  if (args.length === 0) {
-    return [];
-  }
-  else if (args.length === 1) {
-    const [arg] = args;
-
-    if (typeof arg === 'string') {
-      return books.filter(book => books['author'] === arg).map(book => book.title);
-    }
-    else if (typeof arg === 'boolean') {
-      return books.filter(book => books['available'] === arg).map(book => book.title);
-    }
-  }
-  else if (args.length === 2) {
-    const [id, available] = args;
-
-    if (typeof id === 'number' && typeof available === 'boolean') {
-      return books.filter(book => books['id'] === id && books['available'] === available).map(book => book.title);
-    }
-  }
-}
-
-function assertStringValue(val: any): asserts val is string {
-  if (typeof val !== 'string') {
-    throw new Error('value should have been a string');
-  }
-}
-
-function booksTitleTransform(title:any): string {
-  assertStringValue(title);
-
-  return [...title].reverse().join('');
-}
-
-function printBook(book: Book): void {
-  console.log(`${book.title} by ${book.author}`);
-}
-
-function getBookProp(book: Book, prop: BookProperties): any {
-  if (typeof book[prop] === 'function') {
-    return (book[prop] as Function).name;
-  }
-
-  return book[prop];
-}
 
 // Classes
 
-abstract class ReferenceItem {
-  // title: string;
-  // year: number;
-  private _publisher: string;
-  static department: string = 'Research Dep';
+export class Encyclopedia extends ReferenceItem {
+    constructor(newTitle: string, newYear: number, public edition: number) {
+        super(newTitle, newYear);
+    }
+    printItem(): void {
+        super.printItem();
+        console.log(`Edition: ${this.edition} (${this.year})`);
+    }
 
-  get publisher(): string {
-    return this._publisher.toUpperCase();
-  }
-  set publisher(newPublisher) {
-    this._publisher = newPublisher;
-  }
-
-  constructor(public title: string, protected year: number) {
-    console.log('Creating a new ReferenceItem...');
-    // this.title = newTitle;
-    // this.year = newYear;
-  }
-
-  printItem(): void {
-    console.log(`${this.title} was published in ${this.year}`);
-    console.log(`Department: ${ReferenceItem.department}`);
-  }
-
-  abstract printCitation(): void;
-}
-
-class Encyclopedia extends ReferenceItem {
-  constructor(newTitle: string, newYear: number, public edition: number) {
-    super(newTitle, newYear);
-  }
-  printItem(): void {
-    super.printItem();
-    console.log(`Edition: ${this.edition} (${this.year})`);
-  }
-
-  printCitation(): void {
-    console.log(`${this.title} - ${this.year}`);
-  }
-}
-
-class UniversityLibrarian implements Librarian {
-  name: string;
-  email: string;
-  department: string;
-
-  assistCustomer(customerName): void {
-    console.log(`${this.name} is assisting ${customerName}`);
-  }
+    printCitation(): void {
+        console.log(`${this.title} - ${this.year}`);
+    }
 }
 
 // =====================================
@@ -265,7 +44,6 @@ class UniversityLibrarian implements Librarian {
 // console.log(book);
 
 // console.log(calcTotalPages());
-
 
 // =====================================
 // Task 03.01
@@ -344,7 +122,7 @@ class UniversityLibrarian implements Librarian {
 // Task 04.02
 // =====================================
 
-// const logDamage: DamageLogger = (reason: string) => console.log(`Damage: ${reason}`);
+// const logDamage: Logger = (reason: string) => console.log(`Damage: ${reason}`);
 // logDamage('missing back cover');
 
 // =====================================
@@ -433,4 +211,5 @@ const personBook: PersonBook = {
   author: 'Author',
   available: true,
   category: Category.Angular,
-}
+};
+console.log(personBook);
