@@ -1,34 +1,14 @@
-import { ReferenceItem } from './classes';
 import { PersonBook } from './types';
 import { Category } from './enums';
 import { getAllBooks } from './functions';
 import { Logger } from './interfaces';
+import { RefBook, ReferenceItem } from './classes';
 
 showHello('greeting', 'TypeScript');
 
 function showHello(divName: string, name: string) {
   const elt = document.getElementById(divName);
   elt.innerText = `Hello from ${name}`;
-}
-
-// types & interfaces
-
-// Functions
-
-// Classes
-
-export class Encyclopedia extends ReferenceItem {
-    constructor(newTitle: string, newYear: number, public edition: number) {
-        super(newTitle, newYear);
-    }
-    printItem(): void {
-        super.printItem();
-        console.log(`Edition: ${this.edition} (${this.year})`);
-    }
-
-    printCitation(): void {
-        console.log(`${this.title} - ${this.year}`);
-    }
 }
 
 // =====================================
@@ -180,6 +160,7 @@ export class Encyclopedia extends ReferenceItem {
 // =====================================
 
 // const refBook = new Encyclopedia('Hello, TypeScript', 2020, 2);
+// const refBook = new RefBook('Hello, TypeScript', 2020, 2);
 // refBook.printItem();
 // console.log(refBook);
 
@@ -203,13 +184,26 @@ export class Encyclopedia extends ReferenceItem {
 // Task 05.05
 // =====================================
 
-const personBook: PersonBook = {
-  name: 'Anna',
-  email: 'anna@gmail.com',
-  id: 1,
-  title: 'Some book',
-  author: 'Author',
-  available: true,
-  category: Category.Angular,
-};
-console.log(personBook);
+// const personBook: PersonBook = {
+//   name: 'Anna',
+//   email: 'anna@gmail.com',
+//   id: 1,
+//   title: 'Some book',
+//   author: 'Author',
+//   available: true,
+//   category: Category.Angular,
+// };
+// console.log(personBook);
+
+// =====================================
+// Task 06.05
+// =====================================
+
+import('./classes').then(module => {
+    const reader = new module.Reader();
+
+    reader.name = 'Anna';
+    reader.take(getAllBooks()[0]);
+
+    console.log(reader);
+});
