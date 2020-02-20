@@ -5,7 +5,7 @@ interface Book {
   title: string;
   author: string;
   available: boolean;
-  category?: Category;
+  category: Category;
   pages?: number;
   markDamaged?: DamageLogger;
 }
@@ -33,4 +33,8 @@ interface Magazine {
   publisher: string;
 }
 
-export { Book, DamageLogger as Logger, Person, Author, Librarian, Magazine };
+interface ShelfItem {
+  title: string;
+}
+
+export { Book, DamageLogger as Logger, Person, Author, Librarian, Magazine, ShelfItem };

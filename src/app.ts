@@ -1,6 +1,6 @@
-import { PersonBook } from './types';
+import { PersonBook, BookRequiredFields, UpdatedBook, CreateCustomerFunctionType } from './types';
 import { Category } from './enums';
-import { getAllBooks, purge } from './functions';
+import { getAllBooks, purge, createCustomer } from './functions';
 import { Logger, Book, Magazine } from './interfaces';
 import { RefBook, ReferenceItem, Shelf } from './classes';
 
@@ -229,21 +229,48 @@ const inventory: Array<Book> = [
 // Task 07.02
 // =====================================
 
-const bookShelf = new Shelf<Book>();
-inventory.forEach(book => bookShelf.add(book));
+// const bookShelf = new Shelf<Book>();
+// inventory.forEach(book => bookShelf.add(book));
+// const firstBook = bookShelf.getFirst();
+// console.log(firstBook.title);
 
-const firstBook = bookShelf.getFirst();
-console.log(firstBook.title);
+// const magazines: Array<Magazine> = [
+//     { title: 'Programming Language Monthly', publisher: 'Code Mags' },
+//     { title: 'Literary Fiction Quarterly', publisher: 'College Press' },
+//     { title: 'Five Points', publisher: 'GSU' }
+// ];
 
-const magazines: Array<Magazine> = [
-    { title: 'Programming Language Monthly', publisher: 'Code Mags' },
-    { title: 'Literary Fiction Quarterly', publisher: 'College Press' },
-    { title: 'Five Points', publisher: 'GSU' }
-];
+// const magazinesShelf = new Shelf<Magazine>();
+// magazines.forEach(magazine => magazinesShelf.add(magazine));
+// const firstMagazines = magazinesShelf.getFirst();
+// console.log(firstMagazines.title);
 
-const magazinesShelf = new Shelf<Magazine>();
-magazines.forEach(magazine => magazinesShelf.add(magazine));
+// =====================================
+// Task 07.03
+// =====================================
 
-const firstMagazines = magazinesShelf.getFirst();
-console.log(firstMagazines.title);
+// magazinesShelf.printTitle();
+// console.log(magazinesShelf.find('Five Points'));
+
+// =====================================
+// Task 07.04
+// =====================================
+
+// const book: BookRequiredFields = {
+//   id: 1,
+//   author: 'Vitaliy',
+//   available: false,
+//   category: Category.HTML,
+//   title: 'Some Title',
+//   pages: 200,
+//   markDamaged: null
+// }
+
+// const updatedBook: UpdatedBook = {
+//   id: 2,
+//   title: 'New Some Title'
+// };
+
+const params: Parameters<CreateCustomerFunctionType> = ['Anna', 30];
+createCustomer(...params);
 
