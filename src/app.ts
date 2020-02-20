@@ -2,7 +2,8 @@ import { PersonBook, BookRequiredFields, UpdatedBook, CreateCustomerFunctionType
 import { Category } from './enums';
 import { getAllBooks, purge, createCustomer } from './functions';
 import { Logger, Book, Magazine } from './interfaces';
-import { RefBook, ReferenceItem, Shelf } from './classes';
+import { RefBook, ReferenceItem, Shelf, UniversityLibrarian } from './classes';
+import Encyclopedia from './classes/encyclopedia';
 
 showHello('greeting', 'TypeScript');
 
@@ -212,12 +213,12 @@ function showHello(divName: string, name: string) {
 // Task 07.01
 // =====================================
 
-const inventory: Array<Book> = [
-    { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: Category.Software },
-    { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: Category.Software },
-    { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: Category.Software },
-    { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: Category.Software }
-];
+// const inventory: Array<Book> = [
+//     { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: Category.Software },
+//     { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: Category.Software },
+//     { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: Category.Software },
+//     { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: Category.Software }
+// ];
 
 // let result = purge<any>(inventory);
 // console.log(result);
@@ -271,6 +272,33 @@ const inventory: Array<Book> = [
 //   title: 'New Some Title'
 // };
 
-const params: Parameters<CreateCustomerFunctionType> = ['Anna', 30];
-createCustomer(...params);
+// const params: Parameters<CreateCustomerFunctionType> = ['Anna', 30];
+// createCustomer(...params);
 
+// =====================================
+// Task 08.01
+// =====================================
+
+// const obj = new UniversityLibrarian();
+// console.log(obj);
+
+// =====================================
+// Task 08.02
+// =====================================
+
+// obj.name = 'Anna';
+// obj['printLibrarian']();
+
+// =====================================
+// Task 08.03
+// =====================================
+
+// obj.assistFaculty = null;
+// obj.teachCommunity = null;
+
+// =====================================
+// Task 08.04
+// =====================================
+
+const encyclopedia = new Encyclopedia('Title', 2020, 10);
+encyclopedia.printItem();
