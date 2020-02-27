@@ -1,19 +1,45 @@
-import { Book } from './interfaces';
+import { Book, LibMgrCallback } from './interfaces';
 import { Category } from './enums';
 import { BookOrUndefined, BookProperties } from './types';
 
 export function getAllBooks(): readonly Book[] {
   const books: readonly Book[] = <const>[
-    { id: 1, title: 'Refactoring JavaScript', category: Category.JavaScript, author: 'Evan Burchard', available: true },
-    { id: 2, title: 'JavaScript Testing', category: Category.JavaScript, author: 'Liang Yuxian Eugene', available: false },
-    { id: 3, title: 'CSS Secrets', category: Category.CSS, author: 'Lea Verou', available: true },
-    { id: 4, title: 'Mastering JavaScript Object-Oriented Programming', category: Category.JavaScript, author: 'Andrea Chiarelli', available: true }
+    {
+      id: 1,
+      title: 'Refactoring JavaScript',
+      category: Category.JavaScript,
+      author: 'Evan Burchard',
+      available: true
+    },
+    {
+      id: 2,
+      title: 'JavaScript Testing',
+      category: Category.JavaScript,
+      author: 'Liang Yuxian Eugene',
+      available: false
+    },
+    {
+      id: 3,
+      title: 'CSS Secrets',
+      category: Category.CSS,
+      author: 'Lea Verou',
+      available: true
+    },
+    {
+      id: 4,
+      title: 'Mastering JavaScript Object-Oriented Programming',
+      category: Category.JavaScript,
+      author: 'Andrea Chiarelli',
+      available: true
+    }
   ];
 
   return books;
 }
 
-export function logFirstAvailable(books: readonly object[] = getAllBooks()): void {
+export function logFirstAvailable(
+  books: readonly object[] = getAllBooks()
+): void {
   const numOfBooks: number = books.length;
   let title: string = '';
 
@@ -28,7 +54,9 @@ export function logFirstAvailable(books: readonly object[] = getAllBooks()): voi
   console.log(`First available book: ${title}`);
 }
 
-export function getBookTitlesByCategory(category: Category = Category.JavaScript): Array<string> {
+export function getBookTitlesByCategory(
+  category: Category = Category.JavaScript
+): Array<string> {
   const books = getAllBooks();
   const titles: string[] = [];
 
@@ -75,7 +103,11 @@ export function createCustomerId(name: string, id: number): string {
   return `${name}${id}`;
 }
 
-export function createCustomer(name: string, age?: number, city?: string): void {
+export function createCustomer(
+  name: string,
+  age?: number,
+  city?: string
+): void {
   console.log(`Creating customer ${name}`);
 
   if (age) {
@@ -87,7 +119,10 @@ export function createCustomer(name: string, age?: number, city?: string): void 
   }
 }
 
-export function checkoutBooks(customer: string, ...bookIDs: number[]): string[] {
+export function checkoutBooks(
+  customer: string,
+  ...bookIDs: number[]
+): string[] {
   console.log(`Checking out books for ${customer}`);
 
   const titles: string[] = [];
@@ -111,22 +146,25 @@ export function getTitles(...args: any[]): string[] {
 
   if (args.length === 0) {
     return [];
-  }
-  else if (args.length === 1) {
+  } else if (args.length === 1) {
     const [arg] = args;
 
     if (typeof arg === 'string') {
-      return books.filter(book => book['author'] === arg).map(book => book.title);
+      return books
+        .filter(book => book['author'] === arg)
+        .map(book => book.title);
+    } else if (typeof arg === 'boolean') {
+      return books
+        .filter(book => book['available'] === arg)
+        .map(book => book.title);
     }
-    else if (typeof arg === 'boolean') {
-      return books.filter(book => book['available'] === arg).map(book => book.title);
-    }
-  }
-  else if (args.length === 2) {
+  } else if (args.length === 2) {
     const [id, available] = args;
 
     if (typeof id === 'number' && typeof available === 'boolean') {
-      return books.filter(book => book['id'] === id && book['available'] === available).map(book => book.title);
+      return books
+        .filter(book => book['id'] === id && book['available'] === available)
+        .map(book => book.title);
     }
   }
 }
@@ -157,4 +195,60 @@ export function getBookProp(book: Book, prop: BookProperties): any {
 
 export function purge<T>(inventory: Array<T>): Array<T> {
   return inventory.slice(2);
+}
+
+export function getBooksByCategory(
+  category: Category,
+  callback: LibMgrCallback
+) {
+  setTimeout(() => {
+    try {
+      const titles: string[] = getBookTitlesByCategory(category);
+
+      if (titles.length > 0) {
+        callback(null, titles);
+      } else {
+        throw new Error('No books found');
+      }
+    } catch (error) {
+      callback(error, null);
+    }
+  }, 2000);
+}
+
+export const logCategorySearch: LibMgrCallback = function(
+  err: Error,
+  titles: string[]
+): void {
+  if (err) {
+    console.log(`Error message: ${err.message}`);
+  } else {
+    console.log(titles);
+  }
+};
+
+export function getBooksByCategoryPromise(
+  category: Category
+): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        const titles: string[] = getBookTitlesByCategory(category);
+
+        if (titles.length > 0) {
+          resolve(titles);
+        } else {
+          throw new Error('No books found');
+        }
+      } catch (error) {
+        reject(error);
+      }
+    }, 2000);
+  });
+}
+
+export async function logSearchResults(category: Category) {
+  const titles: string[] = await getBooksByCategoryPromise(category);
+
+  console.log(titles);
 }

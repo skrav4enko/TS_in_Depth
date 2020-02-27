@@ -1,4 +1,4 @@
-import { timeout } from "../decorators";
+import { timeout } from '../decorators';
 
 abstract class ReferenceItem {
   // title: string;

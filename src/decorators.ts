@@ -161,15 +161,15 @@ export function positiveInteger(
   propertyName: string,
   descriptor: PropertyDescriptor
 ) {
-    const originSet = descriptor.set;
+  const originSet = descriptor.set;
 
-    descriptor.set = function(value: number) {
-        if (value < 1 || !Number.isInteger(value)) {
-            throw new Error('Invalid value');
-        }
+  descriptor.set = function(value: number) {
+    if (value < 1 || !Number.isInteger(value)) {
+      throw new Error('Invalid value');
+    }
 
-        originSet.call(this, value);
-    };
+    originSet.call(this, value);
+  };
 
-    return descriptor;
+  return descriptor;
 }

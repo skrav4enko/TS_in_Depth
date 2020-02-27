@@ -1,5 +1,12 @@
 import * as Interfaces from '../interfaces';
-import { sealed, logger, writable, logMethod, logParameter, format } from '../decorators';
+import {
+  sealed,
+  logger,
+  writable,
+  logMethod,
+  logParameter,
+  format
+} from '../decorators';
 
 @sealed('UniversityLibrarian')
 @logger

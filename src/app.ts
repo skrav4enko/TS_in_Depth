@@ -1,6 +1,19 @@
-import { PersonBook, BookRequiredFields, UpdatedBook, CreateCustomerFunctionType } from './types';
+import {
+  PersonBook,
+  BookRequiredFields,
+  UpdatedBook,
+  CreateCustomerFunctionType
+} from './types';
 import { Category } from './enums';
-import { getAllBooks, purge, createCustomer } from './functions';
+import {
+  getAllBooks,
+  purge,
+  createCustomer,
+  logCategorySearch,
+  getBooksByCategory,
+  getBooksByCategoryPromise,
+  logSearchResults
+} from './functions';
 import { Logger, Book, Magazine } from './interfaces';
 import { RefBook, ReferenceItem, Shelf, UniversityLibrarian } from './classes';
 import Encyclopedia from './classes/encyclopedia';
@@ -144,7 +157,6 @@ function showHello(divName: string, name: string) {
 // console.log(getBookProp(getAllBooks()[0], 'title'));
 // console.log(getBookProp(getAllBooks()[0], 'markDamaged'));
 // console.log(getBookProp(getAllBooks()[0], 'isbn'));
-
 
 // =====================================
 // Task 05.01
@@ -325,4 +337,44 @@ function showHello(divName: string, name: string) {
 
 // const encyclopedia = new Encyclopedia('Title', 2020, 10);
 // encyclopedia.copies = 10;
+// console.log(encyclopedia.copies);
 
+// =====================================
+// Task 09.01
+// =====================================
+
+// console.log('Start');
+// getBooksByCategory(Category.JavaScript, logCategorySearch);
+// getBooksByCategory(Category.Software, logCategorySearch);
+// console.log('Finish');
+
+// =====================================
+// Task 09.02
+// =====================================
+
+// console.log('Start');
+// getBooksByCategoryPromise(Category.JavaScript)
+//   .then(titles => {
+//     console.log(titles);
+
+//     return titles.length;
+//   })
+//   .then(numbOfBooks => {
+//     console.log(numbOfBooks);
+//   })
+//   .catch(console.log);
+
+// getBooksByCategoryPromise(Category.Software)
+//   .then(console.log)
+//   .catch(console.log);
+// console.log('Finish');
+
+// =====================================
+// Task 09.03
+// =====================================
+
+console.log('Start');
+logSearchResults(Category.JavaScript)
+  .then(console.log)
+  .catch(console.log);
+console.log('Finish');
