@@ -300,5 +300,29 @@ function showHello(divName: string, name: string) {
 // Task 08.04
 // =====================================
 
-const encyclopedia = new Encyclopedia('Title', 2020, 10);
-encyclopedia.printItem();
+// const encyclopedia = new Encyclopedia('Title', 2020, 10);
+// encyclopedia.printItem();
+
+// =====================================
+// Task 08.05
+// =====================================
+
+// const obj = new UniversityLibrarian();
+// obj.name = 'Anna';
+// obj.assistCustomer('Boris');
+
+// =====================================
+// Task 08.06
+// =====================================
+
+// const obj = new UniversityLibrarian();
+// obj.name = 'Anna';
+// obj.assistCustomer('Boris');
+
+// =====================================
+// Task 08.07
+// =====================================
+
+// const encyclopedia = new Encyclopedia('Title', 2020, 10);
+// encyclopedia.copies = 10;
+
